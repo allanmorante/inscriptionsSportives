@@ -1,7 +1,17 @@
 package inscriptions;
 
+import java.util.SortedSet;
+
 import commandLineMenus.*;
+import commandLineMenus.rendering.examples.util.InOut;
 public class MenuInscription {
+	
+	private static Inscriptions inscriptions;
+	
+	public MenuInscription(Inscriptions inscriptions)
+	{
+		MenuInscription.inscriptions = inscriptions;
+	}
 	
 	static Menu getMenu()
 	{
@@ -16,6 +26,11 @@ public class MenuInscription {
 		
 		return menu;
 	}
+	
+	public void start() {
+			
+			getMenu().start();
+		}
 	
 	
 	/*****GESTION PERSONNES**********/
@@ -46,7 +61,11 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Personne ajouté");
+				String prenom = InOut.getString("Entrer le prenom de la personne : ");
+				String nom = InOut.getString("Entrer le nom de la personne : ");
+				String mail = InOut.getString("Entrer le mail de la personne : ");
+				Personne createPersonne = inscriptions.createPersonne(nom, prenom, mail);
+				System.out.println("La personne a été créée avec succés");
 				
 			}
 		};
@@ -66,7 +85,7 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Personnes affiché");
+				System.out.println(inscriptions.getPersonnes());
 				
 			}
 		};
@@ -86,7 +105,22 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Personne supprimé");
+				String nom = InOut.getString("Veuillez entrer le nom de la personne à supprimer :");
+				boolean delete = false;
+				
+				SortedSet<Personne> listPersonnes = inscriptions.getPersonnes();
+				
+				for (Personne p : listPersonnes){
+					if(nom.compareTo(p.getNom()) == 0){
+						p.delete();
+						delete = true;
+					}
+				}
+				if(delete){
+					System.out.println(nom + "a bien été supprimé");
+				}
+				else
+					System.out.println(nom + "introuvable");
 				
 			}
 		};
@@ -122,7 +156,9 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Equipe ajouté");
+				String nomEquipe = InOut.getString("Entrer le nom de l'equipe :");
+				Equipe equipe = inscriptions.createEquipe(nomEquipe);
+				System.out.println("L'équipe : " + nomEquipe + " a bien été créée");
 				
 			}
 		};
@@ -142,7 +178,7 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Equipe affiché");
+				System.out.println(inscriptions.getEquipes());
 				
 			}
 		};
@@ -162,7 +198,23 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Equipe supprimé");
+				String nomEquipe = InOut.getString("Entrer le nom de l'équipe à supprimer :");
+				boolean delete = false;
+				
+				SortedSet<Equipe> listEquipes = inscriptions.getEquipes();
+				
+				for (Equipe e : listEquipes){
+					if(nomEquipe.compareTo(e.getNom()) == 0){
+						e.delete();
+						delete = true;
+					}
+				}
+				if(delete){
+					System.out.println(nomEquipe + "a bien été supprimé");
+				}
+				else
+					System.out.println(nomEquipe + "introuvable");
+				
 				
 			}
 		};
@@ -182,7 +234,48 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Personne ajouté dans l'équipe");
+				String nomEquipe = InOut.getString("Entrer le nom de l'equipe concernée : ");
+				String nomPersonne = InOut.getString("Entrer le nom de la personne à inscrire dans l'équipe : ");
+				
+				boolean equipe = false;
+				boolean personne = false;
+				
+				SortedSet<Personne> listPersonnes = inscriptions.getPersonnes();
+				SortedSet<Equipe> listEquipes = inscriptions.getEquipes();
+				
+				for(Equipe e : listEquipes){
+					
+					if(nomEquipe.compareTo(e.getNom()) == 0){
+						
+						equipe = true;
+						
+						for(Personne p : listPersonnes){
+							
+							if(nomPersonne.compareTo(p.getNom()) == 0){
+								
+								e.add(p);
+								personne = true;
+								
+							}
+								
+						}
+					}
+				}
+				
+				if(equipe){
+					
+					if(personne){
+						
+						System.out.println(nomPersonne + " a bien été ajouté à l'équipe : " + nomEquipe);
+						
+					}
+					else
+						System.out.println(nomPersonne + " introuvable ");
+					
+				}
+				else
+					System.out.println(nomEquipe + " introuvable");
+			
 				
 			}
 		};
@@ -237,8 +330,7 @@ public class MenuInscription {
 		{
 			@Override
 			public void optionSelected() {
-				// TODO Auto-generated method stub
-				System.out.println("Candidat affiché");
+				System.out.println(inscriptions.getCandidats());
 				
 			}
 		};
@@ -258,7 +350,7 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Candidat supprimé");
+				System.out.println("dsfsvsqvsqv");
 				
 			}
 		};
@@ -294,7 +386,9 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Compétition ajouté");
+				String x = InOut.getString("Entrer le nom de la compétition : ");
+				Competition createdCompet = inscriptions.createCompetition(x, null, false);
+				System.out.println("La compétition, " + x + " a été créée avec succés");
 				
 			}
 		};
@@ -314,7 +408,7 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Compétitions affiché");
+				System.out.println(inscriptions.getCompetitions());
 				
 			}
 		};
@@ -362,11 +456,5 @@ public class MenuInscription {
 	
 	/*******END COMPETITION*********/
 	
-	public static void main(String[] args) {
-		
-		Menu menu = getMenu();
-		menu.start();
-		System.out.println("Au revoir !");
-	}
 
 }

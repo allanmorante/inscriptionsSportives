@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import commandLineMenus.Menu;
+
 /**
  * Point d'entrée dans l'application, un seul objet de type Inscription
  * permet de gérer les compétitions, candidats (de type equipe ou personne)
@@ -242,16 +244,13 @@ public class Inscriptions implements Serializable
 	public static void main(String[] args)
 	{
 		Inscriptions inscriptions = Inscriptions.getInscriptions();
-		Competition flechettes = inscriptions.createCompetition("Mondial de fléchettes", null, false);
-		Personne tony = inscriptions.createPersonne("Tony", "Dent de plomb", "azerty"), 
-				boris = inscriptions.createPersonne("Boris", "le Hachoir", "ytreza");
-		flechettes.add(tony);
-		Equipe lesManouches = inscriptions.createEquipe("Les Manouches");
-		lesManouches.add(boris);
-		lesManouches.add(tony);
-		System.out.println(inscriptions);
-		lesManouches.delete();
-		System.out.println(inscriptions);
+		
+		MenuInscription menuInscriptions = new MenuInscription(inscriptions);
+		
+		menuInscriptions.start();
+		System.out.println("Au revoir !");
+		
+		
 		try
 		{
 			inscriptions.sauvegarder();

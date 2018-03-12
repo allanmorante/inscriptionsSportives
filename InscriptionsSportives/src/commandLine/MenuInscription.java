@@ -518,7 +518,22 @@ public class MenuInscription {
 			@Override
 			public void optionSelected() {
 				// TODO Auto-generated method stub
-				System.out.println("Compétition supprimé");
+				String nomCompetition = InOut.getString("Entrer le nom de la comp�tition � supprimer :");
+				boolean delete = false;
+				
+				SortedSet<Competition> listCompetitions = inscriptions.getCompetitions();
+				
+				for (Competition c : listCompetitions){
+					if(nomCompetition.compareTo(c.getNom()) == 0){
+						c.delete();
+						delete = true;
+					}
+				}
+				if(delete){
+					System.out.println(nomCompetition + "a bien été supprimé");
+				}
+				else
+					System.out.println(nomCompetition + "introuvable");
 				
 			}
 		};

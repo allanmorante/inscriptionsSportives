@@ -116,9 +116,8 @@ public class MenuInscription {
 						delete = true;
 					}
 				}
-				if(delete){
+				if(delete)
 					System.out.println(nom + "a bien été supprimé");
-				}
 				else
 					System.out.println(nom + "introuvable");
 				
@@ -137,6 +136,7 @@ public class MenuInscription {
 		equipesMenu.add(displayEquipeOption());
 		equipesMenu.add(deleteEquipeOption());
 		equipesMenu.add(addPersonneInEquipeOption());
+		equipesMenu.add(removePersonneFromEquipeOption());
 		equipesMenu.addBack("r");
 		equipesMenu.setAutoBack(true);
 		return equipesMenu;
@@ -276,6 +276,66 @@ public class MenuInscription {
 				else
 					System.out.println(nomEquipe + " introuvable");
 			
+				
+			}
+		};
+	}
+	
+	static Option removePersonneFromEquipeOption()
+	{
+		Option removePersonneFromEquipe = new Option("Supprimer personne d'une équipe", "m", 
+				removePersonneFromEquipeAction());
+		return removePersonneFromEquipe;
+	}
+	
+	static Action removePersonneFromEquipeAction()
+	{
+		return new Action()
+		{
+			@Override
+			public void optionSelected() {
+				
+				
+				String nomEquipe = InOut.getString("Entrer le nom de l'equipe concernée : ");
+				String nomPersonne = InOut.getString("Entrer le nom de la personne à supprimer de l'équipe : ");
+				
+				boolean equipe = false;
+				boolean personne = false;
+				
+				SortedSet<Equipe> listEquipes = inscriptions.getEquipes();
+				
+				for(Equipe e : listEquipes){
+					
+					if(nomEquipe.compareTo(e.getNom()) == 0){
+						
+						equipe = true;
+						
+						for(Personne p : e.getMembres()){
+							
+							if(nomPersonne.compareTo(p.getNom()) == 0){
+								
+								e.remove(p);
+								personne = true;
+								
+							}
+								
+						}
+					}
+				}
+				
+				if(equipe){
+					
+					if(personne){
+						
+						System.out.println(nomPersonne + " a bien été supprimé l'équipe : " + nomEquipe);
+						
+					}
+					else
+						System.out.println(nomPersonne + " introuvable ");
+					
+				}
+				else
+					System.out.println(nomEquipe + " introuvable");
 				
 			}
 		};

@@ -1,5 +1,6 @@
 package commandLine;
 
+import java.util.ArrayList;
 import java.util.SortedSet;
 import inscriptions.*;
 
@@ -43,9 +44,36 @@ public class MenuInscription {
 		personnesMenu.add(addPersonneOption());
 		personnesMenu.add(displayPersonneOption());
 		personnesMenu.add(deletePersonneOption());
+		personnesMenu.add(selectPersonneOption());
 		personnesMenu.addBack("r");
 		personnesMenu.setAutoBack(true);
 		return personnesMenu;
+	}
+	
+	static Option selectPersonneOption()
+	{
+		Option selectPersonne = new List<Personne>("Selectionner une personne", "x",  
+					new ListData<Personne>()		
+					{
+						// Returns the data needed to refresh the list 
+						// each time it is displayed. 
+						public java.util.List<Personne> getList()
+						{
+							return new ArrayList<Personne>(inscriptions.getPersonnes());
+						}	
+					},
+					new ListAction<Personne>()
+					{				
+						// Triggered each time an item is selected
+						public void itemSelected(int index, Personne someone)
+						{
+							System.out.println("You have selected " + someone.getNom()
+									+ ", who has the index " + index);
+						}
+					});
+		
+		
+		return selectPersonne;
 	}
 	
 	static Option addPersonneOption()

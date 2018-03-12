@@ -7,6 +7,7 @@ import commandLine.MenuInscription;
 
 public class Run {
 	
+	
 	public static void main(String[] args)
 	{
 		Inscriptions inscriptions = Inscriptions.getInscriptions();

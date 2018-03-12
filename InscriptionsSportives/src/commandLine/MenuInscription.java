@@ -1,6 +1,7 @@
-package inscriptions;
+package commandLine;
 
 import java.util.SortedSet;
+import inscriptions.*;
 
 import commandLineMenus.*;
 import commandLineMenus.rendering.examples.util.InOut;
@@ -427,6 +428,7 @@ public class MenuInscription {
 		competitionsMenu.add(displayCompetitionOption());
 		competitionsMenu.add(deleteCompetitionOption());
 		competitionsMenu.add(addCandidatInCompetitionOption());
+		competitionsMenu.add(removeCandidatFromCompetitionOption());
 		competitionsMenu.addBack("r");
 		competitionsMenu.setAutoBack(true);
 		return competitionsMenu;
@@ -509,6 +511,25 @@ public class MenuInscription {
 			public void optionSelected() {
 				// TODO Auto-generated method stub
 				System.out.println("Candidat ajouté dans la compétition");
+				
+			}
+		};
+	}
+	
+	static Option removeCandidatFromCompetitionOption()
+	{
+		Option removeCandidatFromCompetition = new Option("Retirer un candidat d'une compétition", "m", 
+				removeCandidatFromCompetitionAction());
+		return removeCandidatFromCompetition;
+	}
+	
+	static Action removeCandidatFromCompetitionAction()
+	{
+		return new Action()
+		{
+			@Override
+			public void optionSelected() {
+				// TODO Auto-generated method stub
 				
 			}
 		};

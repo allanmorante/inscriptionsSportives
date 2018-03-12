@@ -11,8 +11,6 @@ import java.time.LocalDate;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import commandLineMenus.Menu;
-
 /**
  * Point d'entrée dans l'application, un seul objet de type Inscription
  * permet de gérer les compétitions, candidats (de type equipe ou personne)
@@ -239,25 +237,5 @@ public class Inscriptions implements Serializable
 	{
 		return "Candidats : " + getCandidats().toString()
 			+ "\nCompetitions  " + getCompetitions().toString();
-	}
-	
-	public static void main(String[] args)
-	{
-		Inscriptions inscriptions = Inscriptions.getInscriptions();
-		
-		MenuInscription menuInscriptions = new MenuInscription(inscriptions);
-		
-		menuInscriptions.start();
-		System.out.println("Au revoir !");
-		
-		
-		try
-		{
-			inscriptions.sauvegarder();
-		} 
-		catch (IOException e)
-		{
-			System.out.println("Sauvegarde impossible." + e);
-		}
 	}
 }

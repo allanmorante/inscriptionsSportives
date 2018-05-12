@@ -1,24 +1,56 @@
 package inscriptions;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.SortNatural;
 
 /**
  * Représente une compétition, c'est-à-dire un ensemble de candidats 
  * inscrits à un événement, les inscriptions sont closes à la date dateCloture.
  *
  */
-
+@Entity
+@Table(name="competition")
 public class Competition implements Comparable<Competition>, Serializable
 {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id_compet")
+	private int idCompet;
+	
 	private static final long serialVersionUID = -2882150118573759729L;
+	
+	@Transient
 	private Inscriptions inscriptions;
+	
 	private String nom;
+	
+	@ManyToMany
+	@Cascade(value = { CascadeType.ALL })
+	@SortNatural
 	private Set<Candidat> candidats;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDate dateCloture;
+	
+	@Column(columnDefinition="tinyint(1) default 0")
 	private boolean enEquipe = false;
 
 	Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe)

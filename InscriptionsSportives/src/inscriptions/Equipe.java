@@ -4,15 +4,28 @@ import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.SortNatural;
+
 /**
  * Représente une Equipe. C'est-à-dire un ensemble de personnes pouvant 
  * s'inscrire à une compétition.
  * 
  */
-
+@Entity
+@Table(name="equipe")
 public class Equipe extends Candidat
 {
 	private static final long serialVersionUID = 4147819927233466035L;
+	
+	@ManyToMany
+	@Cascade(value = { CascadeType.ALL })
+	@SortNatural
 	private SortedSet<Personne> membres = new TreeSet<>();
 	
 	Equipe(Inscriptions inscriptions, String nom)

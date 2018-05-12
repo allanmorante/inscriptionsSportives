@@ -4,10 +4,14 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * Représente une personne physique pouvant s'inscrire à une compétition.
  */
-
+@Entity 
+@Table(name="personne")
 public class Personne extends Candidat
 {
 	private static final long serialVersionUID = 4434646724271327254L;

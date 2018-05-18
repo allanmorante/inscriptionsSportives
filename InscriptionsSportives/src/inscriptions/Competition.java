@@ -7,19 +7,20 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.SortNatural;
+
+import hibernate.LocalDateConvertion;
 
 /**
  * Représente une compétition, c'est-à-dire un ensemble de candidats 
@@ -47,7 +48,8 @@ public class Competition implements Comparable<Competition>, Serializable
 	@SortNatural
 	private Set<Candidat> candidats;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="dateDeCloture", columnDefinition="date")
+	@Convert(converter = LocalDateConvertion.class)
 	private LocalDate dateCloture;
 	
 	@Column(columnDefinition="tinyint(1) default 0")

@@ -1,15 +1,12 @@
 package inscriptions;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Collections;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import hibernate.Passerelle;
 
 /**
  * Point d'entrée dans l'application, un seul objet de type Inscription
@@ -148,11 +145,7 @@ public class Inscriptions implements Serializable
 	{
 		
 		if (inscriptions == null)
-		{
-			inscriptions = readObject();
-			if (inscriptions == null)
-				inscriptions = new Inscriptions();
-		}
+			inscriptions = new Inscriptions();
 		return inscriptions;
 	}
 
@@ -172,70 +165,19 @@ public class Inscriptions implements Serializable
 	 * Ne modifie pas les compétitions et candidats déjà existants.
 	 */
 	
-	public Inscriptions recharger()
-	{
-		inscriptions = null;
-		return getInscriptions();
-	}
 	
-	private static Inscriptions readObject()
-	{
-		ObjectInputStream ois = null;
-		try
-		{
-			FileInputStream fis = new FileInputStream(FILE_NAME);
-			ois = new ObjectInputStream(fis);
-			return (Inscriptions)(ois.readObject());
-		}
-		catch (IOException | ClassNotFoundException e)
-		{
-			return null;
-		}
-		finally
-		{
-				try
-				{
-					if (ois != null)
-						ois.close();
-				} 
-				catch (IOException e){}
-		}	
-	}
 	
-	/**
-	 * Sauvegarde le gestionnaire pour qu'il soit ouvert automatiquement 
-	 * lors d'une exécution ultérieure du programme.
-	 * @throws IOException 
-	 */
 	
-	public void sauvegarder() throws IOException
-	{
-		ObjectOutputStream oos = null;
-		try
-		{
-			FileOutputStream fis = new FileOutputStream(FILE_NAME);
-			oos = new ObjectOutputStream(fis);
-			oos.writeObject(this);
-		}
-		catch (IOException e)
-		{
-			throw e;
-		}
-		finally
-		{
-			try
-			{
-				if (oos != null)
-					oos.close();
-			} 
-			catch (IOException e){}
-		}
-	}
 	
 	@Override
 	public String toString()
 	{
 		return "Candidats : " + getCandidats().toString()
 			+ "\nCompetitions  " + getCompetitions().toString();
+	}
+	
+	public static void main(String[] args) {
+		new Passerelle();
+		Passerelle.open();
 	}
 }

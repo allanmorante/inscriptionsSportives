@@ -21,6 +21,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.SortNatural;
 
 import hibernate.LocalDateConvertion;
+import hibernate.Passerelle;
 
 /**
  * Représente une compétition, c'est-à-dire un ensemble de candidats 
@@ -54,6 +55,10 @@ public class Competition implements Comparable<Competition>, Serializable
 	
 	@Column(columnDefinition="tinyint(1) default 0")
 	private boolean enEquipe = false;
+	
+	
+	@Transient
+	private LocalDate currentDate = LocalDate.now();
 
 	Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe)
 	{
@@ -81,6 +86,7 @@ public class Competition implements Comparable<Competition>, Serializable
 	public void setNom(String nom)
 	{
 		this.nom = nom ;
+		Passerelle.save(this);
 	}
 	
 	/**
@@ -92,7 +98,10 @@ public class Competition implements Comparable<Competition>, Serializable
 	public boolean inscriptionsOuvertes()
 	{
 		// TODO retourner vrai si et seulement si la date système est antérieure à la date de clôture.
-		return true;
+		if(currentDate.isBefore(getDateCloture()))
+			return true;
+		else
+			return false;
 	}
 	
 	/**

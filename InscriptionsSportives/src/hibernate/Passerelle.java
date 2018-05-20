@@ -1,7 +1,11 @@
 package hibernate;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -52,7 +56,7 @@ public class Passerelle {
 			session.close();
 	}
 
-	static void delete(Object o)
+	public static void delete(Object o)
 	{
 		transaction = session.beginTransaction();
 		session.delete(o);
@@ -61,12 +65,27 @@ public class Passerelle {
 		session.flush();
 	}
 
-	static void save(Object o)
+	public static void save(Object o)
 	{
 		Transaction tx = session.beginTransaction();
 		session.save(o);
 		tx.commit();
 		session.flush();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> getData(String className)
+	{
+		Query query = session.createQuery("from " + className);
+		return new ArrayList<T>((List<T>) query.list());
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getData(String className, int id)
+	{
+		Query query = session.createQuery("from " + className + " where num = "
+				+ id);
+		return (T) (query.list().get(0));
 	}
 
 }

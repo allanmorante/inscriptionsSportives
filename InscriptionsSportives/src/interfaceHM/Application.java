@@ -1,5 +1,6 @@
 package interfaceHM;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -32,7 +33,8 @@ public class Application extends JPanel implements ActionListener{
 	
 	public void initApplication() {
 		JPanel buttons = new JPanel(new GridBagLayout());
-		buttons.setBorder(new EmptyBorder(10, 10, 10, 10));
+		buttons.setMaximumSize(getMaximumSize());
+		buttons.setBackground(Color.white);
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -70,15 +72,15 @@ public class Application extends JPanel implements ActionListener{
 		switch (((JButton) e.getSource()).getText()) {
 		
 		case "Quitter":
-			Interface.close();
+			Fenetre.close();
 			break;
-			
+		/*	
 		case "Compétition":
 			frame.getContentPane().removeAll();
 			frame.setContentPane(new InterfaceCompetition(frame, inscriptions));
 			frame.invalidate();
 			frame.validate();
-			break;
+			break;*/
 			
 		case "Equipe":
 			frame.getContentPane().removeAll();

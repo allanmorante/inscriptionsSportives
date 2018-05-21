@@ -11,7 +11,10 @@ import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.sun.javafx.event.EventQueue;
+
 import hibernate.Passerelle;
+import interfaceHM.Fenetre;
 
 /**
  * Point d'entrée dans l'application, un seul objet de type Inscription
@@ -248,6 +251,9 @@ public class Inscriptions implements Serializable
 		Passerelle.open();
 		
 		Inscriptions inscription = Inscriptions.getInscriptions();
+		
+		new Fenetre(inscription);
+		
 		
 	}
 }

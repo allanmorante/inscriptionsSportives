@@ -14,6 +14,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.SortNatural;
 
+import hibernate.Passerelle;
+
 /**
  * Représente une personne physique pouvant s'inscrire à une compétition.
  */
@@ -40,6 +42,7 @@ public class Personne extends Candidat
 		this.prenom = prenom;
 		this.mail = mail;
 		equipes = new TreeSet<>();
+		Passerelle.save(this);
 	}
 
 	/**
@@ -60,6 +63,7 @@ public class Personne extends Candidat
 	public void setPrenom(String prenom)
 	{
 		this.prenom = prenom;
+		Passerelle.save(this);
 	}
 
 	/**
@@ -80,6 +84,7 @@ public class Personne extends Candidat
 	public void setMail(String mail)
 	{
 		this.mail = mail;
+		Passerelle.save(this);
 	}
 
 	/**
@@ -94,25 +99,31 @@ public class Personne extends Candidat
 	
 	boolean add(Equipe equipe)
 	{
+		equipes.add(equipe);
+		Passerelle.save(this);
 		return equipes.add(equipe);
 	}
 
 	boolean remove(Equipe equipe)
 	{
-		return equipes.remove(equipe);
+		getEquipes().remove(equipe);
+		Passerelle.delete(equipe);
+		return getEquipes().remove(equipe);
 	}
 	
 	@Override
 	public void delete()
 	{
 		super.delete();
-		for (Equipe e : equipes)
+		for (Equipe e : getEquipes()) {
+			Passerelle.delete(this);
 			e.remove(this);
+		}
 	}
 	
 	@Override
 	public String toString()
 	{
-		return super.toString() + " membre de " + equipes.toString();
+		return super.toString() + " membre de " + getEquipes().toString();
 	}
 }
